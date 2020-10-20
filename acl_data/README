@@ -1,0 +1,23 @@
+The package inclues two directories: review, human_annotions
+
+-- review --
+This direcory contains the online product review data, grouped by product category.
+For each review, there is one file (<review_id>_review) for review body and review score (for the product), and another file (<reivew_id>_product) for product category and product name.
+
+-- human_annotations --
+This directoy contains the human annotated score (0~100) and helpfulness voting for each review. 
+Human annotated score files are named as <genre>.human.score. The score is the average of human generagted scores by eight trianed students. 
+For reference purpose, we also put the x_of_y helpfulness vote rate from the original dataset. Named as <genre>.xofy.rate.
+
+The original data are from SNAP amazon review dataset :https://snap.stanford.edu/data/web-Amazon.html
+Source: J. McAuley and J. Leskovec. Hidden factors and hidden topics: understanding rating dimensions with review text. RecSys, 2013.
+
+-- Citation --
+To cite this work/dataset, use the info below:
+
+@inproceedings{yang2015acl,
+    author="Yinfei Yang and Yaowei Yan and Minghui Qiu and Forrest Sheng Bao",
+    title="Semantic Analysis and Helpfulness Prediction of Text for Online Product Reviews",
+    booktitle ="The 53rd Annual Meeting of the Association for Computational Linguistics (ACL-2015)",
+    year="2015"
+}

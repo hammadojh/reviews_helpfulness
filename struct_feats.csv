@@ -1,0 +1,5 @@
+,review,length,num_tokens,num_sentences,avg_sent_len,num_exclm_mark,ratio_q
+0,hloow omar.,11,2,1,5.0,0,0.0
+1,i like this thing,17,4,0,17.0,0,0.0
+2,no no no,8,3,0,8.0,0,0.0
+3,what?,5,1,0,5.0,0,0.5

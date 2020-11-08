@@ -55,6 +55,14 @@ def struct_extract(reviews):
     results['num_exclm_mark'] = results.review.apply(lambda x: x.count('!'))
     results['ratio_q'] = results.review.apply(lambda x: per_of_q(x))
     
+    #drop the review
+    results = results.drop(columns=['review'])
+    
+    #scale
+    results = results - results.min()
+    results = results / results.max()
+    results = results.fillna(0)
+    
     #save file
     results.to_csv('results/struct_feats.csv')
 
@@ -96,6 +104,11 @@ def ugr_extract(reviews,min_doc_freq=0):
             cols.append(c)
     tf_idf_freq = tf_idf.drop(columns=cols)
     
+    #scale
+    tf_idf_freq = tf_idf_freq - tf_idf_freq.min()
+    tf_idf_freq = tf_idf_freq / tf_idf_freq.max()
+    tf_idf_freq = tf_idf_freq.fillna(0)
+    
     #save file
     tf_idf_freq.to_csv('results/tf_idf_freq.csv')
 
@@ -128,6 +141,12 @@ def galc_extract(reviews):
 
     for i,r in galc_feature.iterrows():
         galc_feature.iloc[i] = galc_vector_feature(reviews[i])
+        
+    
+    #scale
+    galc_feature = galc_feature - galc_feature.min()
+    galc_feature = galc_feature / galc_feature.max()
+    galc_feature = galc_feature.fillna(0)
 
     #Save file
     galc_feature.to_csv('results/GALC_Features.csv')
@@ -163,6 +182,11 @@ def liwc_extract(reviews):
     #extract feats
     for i,r in liwc_feature.iterrows():
         liwc_feature.iloc[i] = liwc_features(reviews[i])
+    
+    #scale
+    liwc_feature = liwc_feature - liwc_feature.min()
+    liwc_feature = liwc_feature / liwc_feature.max()
+    liwc_feature = liwc_feature.fillna(0)
 
     #save file
     liwc_feature.to_csv('results/LIWC_Features.csv')
@@ -197,8 +221,13 @@ def inq_extract(reviews):
 
         #combine with big matrix
         inq_features = np.concatenate((inq_features,inq_feat_row),axis=0)
-        
+    
+    
+    #scale
+    inq_features = pd.DataFrame(inq_features)
+    inq_features = inq_features - inq_features.min()
+    inq_features = inq_features / inq_features.max()
+    inq_features = inq_features.fillna(0)
     
     # save file
-    inq_features = pd.DataFrame(inq_features)
     inq_features.to_csv('results/inq_features.csv')

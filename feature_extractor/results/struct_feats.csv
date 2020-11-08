@@ -1,4 +1,4 @@
-,review,length,num_tokens,num_sentences,avg_sent_len,num_exclm_mark,ratio_q
-0,hello omar.,11,2,1,5.0,0,0.0
-1,I dont like this book.,22,5,1,10.5,0,0.0
-2,this is amazing. I told you.,28,6,2,8.666666666666666,0,0.0
+,length,num_tokens,num_sentences,avg_sent_len,num_exclm_mark,ratio_q
+0,0.0,0.0,0.0,0.0,0.0,0.0
+1,0.6470588235294118,0.75,0.0,1.0,0.0,0.0
+2,1.0,1.0,1.0,0.6666666666666665,0.0,0.0

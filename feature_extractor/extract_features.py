@@ -8,20 +8,38 @@ from collections import Counter
 import liwc
 import math
 import json
+import os
 
 
 # Extract all
 
-def extract_all_features(reviews,min_doc_freq=2):
-    struct_extract(reviews)
-    ugr_extract(reviews,min_doc_freq=min_doc_freq)
-    galc_extract(reviews)
-    liwc_extract(reviews)
-    inq_extract(reviews)
+def extract_all_features(reviews,min_doc_freq=2,saveto='review_features'):
+    
+    makedirectory(saveto)
+    
+    #struct
+    print('struct..')
+    struct_extract(reviews,saveto)
+        
+    #ugr
+    print('ugr..')
+    ugr_extract(reviews,min_doc_freq=min_doc_freq,saveto=saveto)
+    
+    #galc
+    print('galc')
+    galc_extract(reviews,saveto)
+    
+    #liwc
+    print('liwc')
+    liwc_extract(reviews,saveto)
+    
+    #inquirier
+    print('inq')
+    inq_extract(reviews,saveto)
 
 # STRUCT
  
-def struct_extract(reviews):
+def struct_extract(reviews,saveto):
 
     """
     review list(str): list of sentences 
@@ -34,8 +52,8 @@ def struct_extract(reviews):
     #define local funcs
     def avg_sent_length(string):
         sentences = string.split('.')
-        sum_len = 0
-        for s in sentences:
+        sum_len = 0        
+        for i,s in enumerate(sentences):
             sum_len += len(s)
         return sum_len/len(sentences)
 
@@ -64,12 +82,12 @@ def struct_extract(reviews):
     results = results.fillna(0)
     
     #save file
-    results.to_csv('results/struct_feats.csv')
+    results.to_csv('results/%s/struct_feats.csv'%saveto)
 
 
 # UGR 
 
-def ugr_extract(reviews,min_doc_freq=0):
+def ugr_extract(reviews,min_doc_freq=0,saveto='review_features'):
 
     #remove stop_words 
     reviews_clean = []
@@ -110,12 +128,12 @@ def ugr_extract(reviews,min_doc_freq=0):
     tf_idf_freq = tf_idf_freq.fillna(0)
     
     #save file
-    tf_idf_freq.to_csv('results/tf_idf_freq.csv')
+    tf_idf_freq.to_csv('results/%s/tf_idf_freq.csv'%saveto)
 
 
 # GALC
 
-def galc_extract(reviews):
+def galc_extract(reviews,saveto):
     
     # read galc dictionary
     with open('helping/galc_dict.json') as json_file:
@@ -149,12 +167,12 @@ def galc_extract(reviews):
     galc_feature = galc_feature.fillna(0)
 
     #Save file
-    galc_feature.to_csv('results/GALC_Features.csv')
+    galc_feature.to_csv('results/%s/GALC_Features.csv'%saveto)
 
 
 # LIWC 
 
-def liwc_extract(reviews):
+def liwc_extract(reviews,saveto):
     parse, category_names = liwc.load_token_parser('helping/LIWC2007_English100131.dic')
 
     # define helpers
@@ -189,12 +207,12 @@ def liwc_extract(reviews):
     liwc_feature = liwc_feature.fillna(0)
 
     #save file
-    liwc_feature.to_csv('results/LIWC_Features.csv')
+    liwc_feature.to_csv('results/%s/LIWC_Features.csv'%saveto)
 
 
 # INQURIER 
 
-def inq_extract(reviews):
+def inq_extract(reviews,saveto):
     
     #read inq
     inq = pd.read_excel('helping/inquirerbasic.xls')
@@ -230,4 +248,14 @@ def inq_extract(reviews):
     inq_features = inq_features.fillna(0)
     
     # save file
-    inq_features.to_csv('results/inq_features.csv')
+    inq_features.to_csv('results/%s/inq_features.csv'%saveto)
+
+    
+####### HELPING FUNCIONS #######
+
+def makedirectory(name):
+    import os
+    if not os.path.isdir('results'):
+        os.mkdir('results') 
+    if not os.path.isdir('results/%s'%name):
+        os.mkdir('results/%s'%name) 
